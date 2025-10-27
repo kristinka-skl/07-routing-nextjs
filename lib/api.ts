@@ -39,6 +39,15 @@ export async function deleteNote(id: Note["id"]): Promise<Note> {
 }
 
 export const fetchNoteById = async (id: string) => {
-  const res = await api.get<Note>(`/notes/${id}`);
-  return res.data;
+  const { data } = await api.get<Note>(`/notes/${id}`);
+  return data;
+};
+export const fetchNoteByCategory = async (categoryId?: string) => {
+  const { data } = await api.get<Note[]>("/notes", {
+    params: {
+      perPage: PER_PAGE,
+      tag: categoryId,
+    },
+  });
+  return data;
 };
