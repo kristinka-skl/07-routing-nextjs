@@ -16,7 +16,6 @@ export default function NoteDetailsClient() {
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
-  console.log(note);
   return (
     <div className={css.container}>
       {isLoading && <p>Loading, please wait...</p>}

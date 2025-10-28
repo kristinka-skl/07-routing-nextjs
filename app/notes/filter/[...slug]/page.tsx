@@ -1,5 +1,10 @@
-import NoteList from "@/components/NoteList/NoteList";
 import { fetchNoteByCategory } from "@/lib/api";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import FilterPageClient from "./FilterPage.client";
 
 interface FilterPageProps {
   params: Promise<{ slug: string[] }>;
@@ -8,13 +13,16 @@ interface FilterPageProps {
 export default async function FilterPage({ params }: FilterPageProps) {
   const { slug } = await params;
   const category = slug[0] === "all" ? undefined : slug[0];
-  const response = await fetchNoteByCategory(category);
-  console.log(response);
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["note", category],
+    queryFn: () => fetchNoteByCategory(category),
+  });
+
   return (
-    <div>
-      <h1>Filtered Notes List</h1>
-      <p>Current path: {slug?.join(" / ") || "home"}</p>
-      {/* <NoteList notes={response} /> */}
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <FilterPageClient category={category} />
+    </HydrationBoundary>
   );
 }

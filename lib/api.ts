@@ -43,7 +43,7 @@ export const fetchNoteById = async (id: string) => {
   return data;
 };
 export const fetchNoteByCategory = async (categoryId?: string) => {
-  const { data } = await api.get<Note[]>("/notes", {
+  const { data } = await api.get<FetchNotesResponse>("/notes", {
     params: {
       perPage: PER_PAGE,
       tag: categoryId,
