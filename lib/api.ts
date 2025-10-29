@@ -16,13 +16,15 @@ const PER_PAGE = 10;
 
 export async function fetchNotes(
   query: string,
-  page: number
+  page: number,
+  category?: string
 ): Promise<FetchNotesResponse> {
   const { data } = await api.get<FetchNotesResponse>("/notes", {
     params: {
       search: query,
       page: page,
       perPage: PER_PAGE,
+      tag: category,
     },
   });
   return data;
@@ -42,12 +44,12 @@ export const fetchNoteById = async (id: string) => {
   const { data } = await api.get<Note>(`/notes/${id}`);
   return data;
 };
-export const fetchNoteByCategory = async (categoryId?: string) => {
-  const { data } = await api.get<FetchNotesResponse>("/notes", {
-    params: {
-      perPage: PER_PAGE,
-      tag: categoryId,
-    },
-  });
-  return data;
-};
+// export const fetchNoteByCategory = async (categoryId?: string) => {
+//   const { data } = await api.get<FetchNotesResponse>("/notes", {
+//     params: {
+//       perPage: PER_PAGE,
+//       tag: categoryId,
+//     },
+//   });
+//   return data;
+// };
