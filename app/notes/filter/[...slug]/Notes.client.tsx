@@ -22,7 +22,7 @@ export default function FilterPageClient({ category }: FilterPageClientProps) {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  const { data, isError, isSuccess } = useQuery({
     queryKey: ["note", query, currentPage, category],
     queryFn: () => fetchNotes(query, currentPage, category),
     placeholderData: keepPreviousData,
